@@ -1,0 +1,43 @@
+.device-control-card {
+    min-width: 360px;
+    /*max-width: 600px;*/
+    padding-top: 5px;
+}
+
+.no_data_panel {
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/*@media (min-width: 1600px) {*/
+/*.device-control-card{*/
+/*max-width: 450px;*/
+/*}*/
+/*!*.container {*!*/
+/*!*width: auto;*!*/
+/*!*mx-auto:true;*!*/
+/*!*position: relative;*!*/
+/*!*margin-left: auto;*!*/
+/*!*margin-right: auto;*!*/
+/*!*}*!*/
+
+/*.col-giant-auto {*/
+/*!*width: auto;*!*/
+/*text-align: left;*/
+/*display: inline-block;*/
+/*float: none;*/
+/*-webkit-box-flex: 0;*/
+/*-webkit-flex: initial;*/
+/*-ms-flex: initial;*/
+/*flex: initial;*/
+/*}*/
+/*.card-container2 {*/
+/*}*/
+/*!*.card-container{*!*/
+/*!*text-align: center;*!*/
+/*!*}*!*/
+/*}*/

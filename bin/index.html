@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AsgardSystem</title>
+
+    <meta name="description" value="test information"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="./css/tether.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/jquery-ui.min.css" rel="stylesheet">
+
+    <link href="./css/asgardsystem.css" rel="stylesheet">
+
+    <!--主体框架-->
+    <script src="./js/react.min.js"></script>
+    <script src="./js/react-dom.js"></script>
+    <script src="./js/jquery-3.2.0.min.js"></script>
+    <script src="./js/jquery-ui.min.js"></script>
+    <script src="./js/jquery.ui.touch-punch.min.js"></script>
+
+    <script src="./js/tether.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+
+    <!--废物slider-->
+    <!--<link href="./css/bootstrap-slider.css" rel="stylesheet">-->
+    <!--<link href="./css/highlightjs-github-theme.css" rel="stylesheet">-->
+    <!--<script src="./js/bootstrap-slider.min.js"></script>-->
+    <!--<script src="./js/highlight.min.js"></script>-->
+
+</head>
+<body>
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navibar_for_collapse" aria-controls="aria-controls" aria-expanded="false"
+            aria-label="什么你看不懂?">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#home">AsgardSystem</a>
+
+    <div class="collapse navbar-collapse" id="navibar_for_collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#home">控制面板</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#link">信息界面</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">信息统计</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="设备名称">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索设备</button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid card-container" id="card-container">
+    <div class="no_data_panel"><h1>no device,or error</h1></div>
+</div>
+
+
+<script>
+    document.node_address_list = ["192.168.1.22:20010"];
+    document.remote_password = "4076f096bf4c8b869ac8bb4e2ce64264";
+
+</script>
+<!--总程序入口-->
+<script src="js/AsgardSystem.js"></script>
+<!--日你大爷的require必须最后加载.死妈设计-->
+<script src="./js/require.js"></script>
+</body>
+</html>

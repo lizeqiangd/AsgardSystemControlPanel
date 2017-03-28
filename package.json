@@ -1,0 +1,35 @@
+{
+  "name": "terminusestplayer",
+  "version": "1.0.0",
+  "description": "1",
+  "main": "index.js",
+  "dependencies": {
+    "@types/react": "^15.0.16",
+    "@types/react-dom": "^0.14.23",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lizeqiangd/TerminusEstPlayer.git"
+  },
+  "keywords": [
+    "player",
+    "html5player",
+    "danmaku"
+  ],
+  "author": "Lizeqiangd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lizeqiangd/TerminusEstPlayer/issues"
+  },
+  "homepage": "https://github.com/lizeqiangd/TerminusEstPlayer#readme"
+}
