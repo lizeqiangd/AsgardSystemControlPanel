@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Created by Lizeqiangd on 2017/3/18.
  */
@@ -35,16 +35,17 @@ var DeviceCardBase = (function (_super) {
         _this.device_type = _this.props['type'];
         _this.remote_address = _this.props['remote_address'];
         _this.control_button_classname = _this.device_name + "_controller";
-        HostManager_1["default"].event_dispatcher.addEventListener(AsgardSystemEvent_1["default"].state_update, _this.onStateUpdate.bind(_this));
+        HostManager_1.default.event_dispatcher.addEventListener(AsgardSystemEvent_1.default.state_update, _this.onStateUpdate.bind(_this));
         _this.state = {};
-        for (var i in HostManager_1["default"].state_list[_this.device_name]) {
-            _this.state[i] = HostManager_1["default"].state_list[_this.device_name][i];
+        for (var i in HostManager_1.default.state_list[_this.device_name]) {
+            _this.state[i] = HostManager_1.default.state_list[_this.device_name][i];
         }
         return _this;
     }
     DeviceCardBase.prototype.onStateUpdate = function (e) {
         if (e.data == this.device_name) {
-            this.setState(StateManager_1["default"].getDeviceState(this.device_name));
+            //noinspection TypeScriptUnresolvedFunction
+            this.setState(StateManager_1.default.getDeviceState(this.device_name));
             // console.log('onStateUpdate', StateManager.getDeviceState(this.device_name))
         }
     };
@@ -63,7 +64,23 @@ var DeviceCardBase = (function (_super) {
     };
     DeviceCardBase.prototype.submit_command = function (command) {
     };
+    DeviceCardBase.prototype.get_card_framework = function (children) {
+        return (React.createElement("div", { className: this.card_class_prefix, id: "device_card_" + this.device_module },
+            React.createElement("div", { className: "card" },
+                React.createElement("div", { className: "card-header text-center" }, this.device_module),
+                children)));
+    };
     return DeviceCardBase;
 }(React.Component));
-exports["default"] = DeviceCardBase;
-//# sourceMappingURL=DeviceCardBase.js.map
+exports.default = DeviceCardBase;
+var card_frame_base = (function (_super) {
+    __extends(card_frame_base, _super);
+    function card_frame_base(props) {
+        return _super.call(this, props) || this;
+    }
+    card_frame_base.prototype.render = function () {
+        return (React.createElement("div", { className: "test." }));
+    };
+    return card_frame_base;
+}(React.Component));
+exports.card_frame_base = card_frame_base;

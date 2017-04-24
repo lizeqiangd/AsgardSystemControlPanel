@@ -1,6 +1,7 @@
 /**
  * Created by Lizeqiangd on 2017/3/18.
  */
+
 /// <reference path="./../../../../node_modules/@types/react/index.d.ts" />
 import * as React from 'react';
 import DeviceCardBase from "./DeviceCardBase";
@@ -17,10 +18,12 @@ export default class ProjectionScreenRemote extends DeviceCardBase {
 
     submit_command(command: string) {
         // console.log(this)
+        //noinspection TypeScriptUnresolvedFunction
         this.setState({
             button_disabled: true
         })
         setTimeout(()=> {
+            //noinspection TypeScriptUnresolvedFunction
             this.setState({
                 button_disabled: false
             })

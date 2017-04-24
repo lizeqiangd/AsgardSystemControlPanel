@@ -33,4 +33,7 @@ function onLoadNodeComplete(e: AsgardSystemEvent) {
 
 
 
-$('#search_bar').on
+$('#search_bar').on('input',(event)=>{
+    let search_text:string =$('#search_bar').val();
+    CardManager.renderCard(search_text);
+})

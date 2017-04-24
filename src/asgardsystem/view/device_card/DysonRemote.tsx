@@ -9,6 +9,7 @@ import CommunicationManager from "../../controller/CommunicationManager";
 import StateManager from "../../controller/StateManager";
 import AsgardSystemEvent from "../../event/AsgardSystemEvent";
 import HostManager from "../../model/HostManager";
+import {card_frame_base} from "./DeviceCardBase";
 
 declare var $: any;
 export default class DysonRemote extends DeviceCardBase {
@@ -45,6 +46,7 @@ export default class DysonRemote extends DeviceCardBase {
                 command_obj.fmod = 'FAN'
                 command_obj.fnsp = command;
         }
+        //noinspection TypeScriptUnresolvedFunction
         this.setState({fan: command_obj})
         let remote_data: any =
             [{
@@ -80,10 +82,11 @@ export default class DysonRemote extends DeviceCardBase {
         let temp: string = this.state['env']['temp'] ? this.state['env']['temp'] + '°C' : '未知';
         let hr: string = this.state['env']['hr'] ? this.state['env']['hr'] * 100 + '%' : '未知';
         return (
-            <div className={this.card_class_prefix}>
+            <div className={this.card_class_prefix} id={"device_card_"+this.device_module}>
                 <div className="card">
                     <div className="card-header text-center">
                         {this.device_module}
+                        <card_frame_base compiler="TypeScript" framework="React"/>
                     </div>
                     <div className="card-block">
 

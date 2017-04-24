@@ -1,3 +1,6 @@
+/**
+ * Created by Lizeqiangd on 2017/3/18.
+ */
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -9,10 +12,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-/**
- * Created by Lizeqiangd on 2017/3/18.
- */
+Object.defineProperty(exports, "__esModule", { value: true });
 /// <reference path="./../../../../node_modules/@types/react/index.d.ts" />
 var React = require("react");
 var DeviceCardBase_1 = require("./DeviceCardBase");
@@ -28,31 +28,33 @@ var ProjectionScreenRemote = (function (_super) {
     ProjectionScreenRemote.prototype.submit_command = function (command) {
         var _this = this;
         // console.log(this)
+        //noinspection TypeScriptUnresolvedFunction
         this.setState({
             button_disabled: true
         });
         setTimeout(function () {
+            //noinspection TypeScriptUnresolvedFunction
             _this.setState({
                 button_disabled: false
             });
         }, 1500);
         switch (command) {
             case 'up':
-                StateManager_1["default"].setDeviceState(this.device_name, { "projection_screen_state": 1 });
+                StateManager_1.default.setDeviceState(this.device_name, { "projection_screen_state": 1 });
                 break;
             case 'stop':
-                StateManager_1["default"].setDeviceState(this.device_name, { "projection_screen_state": 2 });
+                StateManager_1.default.setDeviceState(this.device_name, { "projection_screen_state": 2 });
                 break;
             case 'down':
-                StateManager_1["default"].setDeviceState(this.device_name, { "projection_screen_state": 3 });
+                StateManager_1.default.setDeviceState(this.device_name, { "projection_screen_state": 3 });
                 break;
         }
         var remote_data = [{
                 "type": this.device_type,
                 "target_device_name": this.device_name,
-                "command": command
+                "command": command,
             }];
-        CommunicationManager_1["default"].postCommand(this.remote_address, remote_data);
+        CommunicationManager_1.default.postCommand(this.remote_address, remote_data);
     };
     ProjectionScreenRemote.prototype.render = function () {
         var projection_screen_state = '未知';
@@ -81,6 +83,5 @@ var ProjectionScreenRemote = (function (_super) {
                         projection_screen_state)))));
     };
     return ProjectionScreenRemote;
-}(DeviceCardBase_1["default"]));
-exports["default"] = ProjectionScreenRemote;
-//# sourceMappingURL=ProjectionScreenRemote.js.map
+}(DeviceCardBase_1.default));
+exports.default = ProjectionScreenRemote;

@@ -7,7 +7,7 @@ import HostManager from "../../model/HostManager";
 import AsgardSystemEvent from "../../event/AsgardSystemEvent";
 import StateManager from "../../controller/StateManager";
 
-declare var $:any;
+declare var $: any;
 export default class DeviceCardBase extends React.Component<{},{}> {
 
     public device_index: number = -1;
@@ -31,7 +31,7 @@ export default class DeviceCardBase extends React.Component<{},{}> {
         this.control_button_classname = this.device_name + "_controller";
         HostManager.event_dispatcher.addEventListener(AsgardSystemEvent.state_update, this.onStateUpdate.bind(this));
 
-        this.state={};
+        this.state = {};
         for (var i in HostManager.state_list[this.device_name]) {
             this.state[i] = HostManager.state_list[this.device_name][i];
         }
@@ -39,6 +39,7 @@ export default class DeviceCardBase extends React.Component<{},{}> {
 
     onStateUpdate(e: AsgardSystemEvent) {
         if (e.data == this.device_name) {
+            //noinspection TypeScriptUnresolvedFunction
             this.setState(StateManager.getDeviceState(this.device_name))
             // console.log('onStateUpdate', StateManager.getDeviceState(this.device_name))
         }
@@ -58,5 +59,30 @@ export default class DeviceCardBase extends React.Component<{},{}> {
 
     }
 
+    get_card_framework(children: any) {
+        return (
+            <div className={this.card_class_prefix} id={"device_card_"+this.device_module}>
+                <div className="card">
+                    <div className="card-header text-center">
+                        {this.device_module}
+                    </div>
+                    {children}
+                </div>
+            </div>);
+    }
 
+}
+
+export  class card_frame_base extends React.Component<{}, {}> {
+    constructor(props ) {
+        super(props);
+    }
+
+    public render() {
+        return (
+            <div className="test.">
+
+            </div>
+        );
+    }
 }

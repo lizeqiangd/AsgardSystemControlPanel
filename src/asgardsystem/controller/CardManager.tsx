@@ -13,7 +13,7 @@ export default class CardManager {
     private static readonly ReactClass: any = {
         UnknownDevice: UnknownDevice,
         ProjectionScreenRemote: ProjectionScreenRemote,
-        DysonRemote:DysonRemote
+        DysonRemote: DysonRemote
 
     }
 
@@ -26,7 +26,7 @@ export default class CardManager {
     private static createCardView(device: any) {
         // console.log(device.module, this.ReactClass[device.module], this.ReactClass, this.ReactClass['ProjectionScreenRemote'])
 
-        let module_name: string = device.module ;
+        let module_name: string = device.module;
         let device_card: any;
 
         if (this.ReactClass[module_name]) {
@@ -39,11 +39,18 @@ export default class CardManager {
     }
 
 
-    static renderCard() {
+    static renderCard(device_name: string = "") {
+        let renderCards: React.ReactElement<{}>[];
+        if (device_name) {
+
+        } else {
+            renderCards = HostManager.card_list;
+        }
         ReactDOM.render(
-            <div className="row">{HostManager.card_list}</div>,
+            <div className="row">{renderCards}</div>,
             $(HostManager.card_container_jquery_selector_name)[0]
         );
         HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.render_card));
     }
+
 }

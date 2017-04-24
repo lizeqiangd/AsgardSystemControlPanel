@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Created by Lizeqiangd on 2017/3/18.
  */
@@ -10,7 +10,7 @@ var StateManager = (function () {
         // this.event_dispatcher.addEventListener(AsgardSystemEvent.stage_change, this.onStateChange);
     }
     StateManager.updateState = function () {
-        HostManager_1["default"].event_dispatcher.dispatchEvent(new AsgardSystemEvent_1["default"](AsgardSystemEvent_1["default"].stage_change, this.state));
+        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.stage_change, this.state));
     };
     StateManager.getDeviceState = function (device_name) {
         if (this.state[device_name]) {
@@ -31,10 +31,9 @@ var StateManager = (function () {
         }
         // console.log(device_name,device_state,needUpdate)
         if (needUpdate)
-            HostManager_1["default"].event_dispatcher.dispatchEvent(new AsgardSystemEvent_1["default"](AsgardSystemEvent_1["default"].state_update, device_name));
+            HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.state_update, device_name));
     };
     return StateManager;
 }());
 StateManager.state = {};
-exports["default"] = StateManager;
-//# sourceMappingURL=StateManager.js.map
+exports.default = StateManager;

@@ -9,11 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-/**
- * Created by Lizeqiangd on 2017/3/18.
- */
-/// <reference path="./../../../../node_modules/@types/react/index.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var DeviceCardBase_1 = require("./DeviceCardBase");
 var CommunicationManager_1 = require("../../controller/CommunicationManager");
@@ -49,13 +45,14 @@ var DysonRemote = (function (_super) {
                 command_obj.fmod = 'FAN';
                 command_obj.fnsp = command;
         }
+        //noinspection TypeScriptUnresolvedFunction
         this.setState({ fan: command_obj });
         var remote_data = [{
                 "type": this.device_type,
                 "target_device_name": this.device_name,
                 "command": command_obj
             }];
-        CommunicationManager_1["default"].postCommand(this.remote_address, remote_data);
+        CommunicationManager_1.default.postCommand(this.remote_address, remote_data);
     };
     DysonRemote.prototype.componentDidMount = function () {
         var _this = this;
@@ -77,9 +74,11 @@ var DysonRemote = (function (_super) {
     DysonRemote.prototype.render = function () {
         var temp = this.state['env']['temp'] ? this.state['env']['temp'] + '°C' : '未知';
         var hr = this.state['env']['hr'] ? this.state['env']['hr'] * 100 + '%' : '未知';
-        return (React.createElement("div", { className: this.card_class_prefix },
+        return (React.createElement("div", { className: this.card_class_prefix, id: "device_card_" + this.device_module },
             React.createElement("div", { className: "card" },
-                React.createElement("div", { className: "card-header text-center" }, this.device_module),
+                React.createElement("div", { className: "card-header text-center" },
+                    this.device_module,
+                    React.createElement("card_frame_base", { compiler: "TypeScript", framework: "React" })),
                 React.createElement("div", { className: "card-block" },
                     React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
                         React.createElement("button", { className: (this.state['fan']['fmod'] == 'FAN' ? "active" : "") + " btn btn-outline-success " + this.control_button_classname, value: "FAN" }, "\u5F00\u673A"),
@@ -103,6 +102,5 @@ var DysonRemote = (function (_super) {
                     hr))));
     };
     return DysonRemote;
-}(DeviceCardBase_1["default"]));
-exports["default"] = DysonRemote;
-//# sourceMappingURL=DysonRemote.js.map
+}(DeviceCardBase_1.default));
+exports.default = DysonRemote;
