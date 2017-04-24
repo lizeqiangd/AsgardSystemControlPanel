@@ -1,5 +1,6 @@
 import HostManager from "../model/HostManager";
 import AsgardSystemEvent from "../event/AsgardSystemEvent";
+import StateManager from "./StateManager";
 /// <reference path="../../../bin/js/jquery.d.ts" />
 declare var $: any;
 /**
@@ -39,20 +40,16 @@ export default class CommunicationManager {
 
     static updateDeviceStates() {
         let node_address = HostManager.node_address_list;
-        let node_list: any[] = [];
         for (var i: number = 0; i < node_address.length; i++) {
             let url: string = `http://${node_address[i]}/asgard_system/list_device`;
             $.get(url, null, (data, status)=> {
                 if (status == 'success') {
-                    node_list.push(data);
-                    if (node_list.length == node_address.length) {
-                        HostManager.node_list = node_list;
-                        HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.node_load_complete, node_list))
+                    for (let k in data.device) {
+                        StateManager.setDeviceState(data.device[k]['name'], data.device[k]['state']);
                     }
                 } else {
                     console.log('CommunicationManager:updateDeviceStates failed', status)
                 }
-
             })
         }
     }

@@ -1,5 +1,5 @@
 /**
- * Created by Lizeqiangd on 2017/3/18.
+ * Created by Lizeqiangd on 2017/4/24.
  */
 
 /// <reference path="./../../../../node_modules/@types/react/index.d.ts" />
@@ -15,14 +15,13 @@ declare module JSX {
         "DeviceCardHeader": DeviceCardHeader
     }
 }
-export default class ProjectionScreenRemote extends DeviceCardBase {
+export default class BedroomLocker extends DeviceCardBase {
     constructor(props) {
         super(props);
         this.state['button_disabled'] = false;
     }
 
     submit_command(command: string) {
-        // console.log(this)
         //noinspection TypeScriptUnresolvedFunction
         this.setState({
             button_disabled: true
@@ -32,17 +31,14 @@ export default class ProjectionScreenRemote extends DeviceCardBase {
             this.setState({
                 button_disabled: false
             })
-        }, 1500);
+        }, 5000);
 
         switch (command) {
-            case 'up':
+            case 'lock':
                 StateManager.setDeviceState(this.device_name, {"projection_screen_state": 1});
                 break;
-            case 'stop':
+            case 'unloock':
                 StateManager.setDeviceState(this.device_name, {"projection_screen_state": 2});
-                break;
-            case 'down':
-                StateManager.setDeviceState(this.device_name, {"projection_screen_state": 3});
                 break;
         }
         let remote_data: any =
@@ -58,13 +54,10 @@ export default class ProjectionScreenRemote extends DeviceCardBase {
         let projection_screen_state: string = '未知';
         switch (this.state['projection_screen_state']) {
             case 1:
-                projection_screen_state = '上升';
+                projection_screen_state = '锁定';
                 break;
             case 2:
-                projection_screen_state = '停止';
-                break;
-            case 3:
-                projection_screen_state = '下降';
+                projection_screen_state = '解锁';
                 break;
         }
         return (
@@ -73,18 +66,13 @@ export default class ProjectionScreenRemote extends DeviceCardBase {
                     <div className="btn-group ">
                         <button
                             className={(this.state['projection_screen_state']==1?"active":"") +" btn btn-outline-primary "+this.control_button_classname}
-                            value="up"
-                            disabled={this.state['button_disabled']}>上升
+                            value="lock"
+                            disabled={this.state['button_disabled']}>锁定
                         </button>
                         <button
-                            className={(this.state['projection_screen_state']==2?"active":"") +" btn btn-outline-danger "+this.control_button_classname}
-                            value="stop"
-                            disabled={this.state['button_disabled']}>停止
-                        </button>
-                        <button
-                            className={(this.state['projection_screen_state']==3?"active":"")  +" btn btn-outline-primary "+this.control_button_classname}
-                            value="down"
-                            disabled={this.state['button_disabled']}>下降
+                            className={(this.state['projection_screen_state']==2?"active":"") +" btn btn-outline-primary "+this.control_button_classname}
+                            value="unlock"
+                            disabled={this.state['button_disabled']}>解锁
                         </button>
                     </div>
 

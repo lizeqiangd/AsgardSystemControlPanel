@@ -53,6 +53,7 @@
 	var CommunicationManager_1 = __webpack_require__(4);
 	var AsgardSystemEvent_1 = __webpack_require__(5);
 	var CardManager_1 = __webpack_require__(6);
+	var StateManager_1 = __webpack_require__(190);
 	//需要从网页中获取配置信息.
 	HostManager_1.default.node_address_list = getDocumentConfigValue('node_address_list');
 	HostManager_1.default.remote_password = getDocumentConfigValue('remote_password');
@@ -74,10 +75,22 @@
 	    for (var i = 0; i < HostManager_1.default.device_list.length; i++) {
 	        CardManager_1.default.createCard(HostManager_1.default.device_list[i]);
 	    }
+	    StateManager_1.default.startAutoUpdate(5);
 	}
-	$('#search_bar').on('input', function (event) {
+	/**
+	 * 搜索栏响应代码,用于搜索目标模块.
+	 */
+	$('#search_bar').on('input', function () {
 	    var search_text = $('#search_bar').val();
-	    CardManager_1.default.renderCard(search_text);
+	    var selector;
+	    if (search_text) {
+	        selector = ".device-control-card:not([id*='" + search_text + "'])";
+	        $(selector).fadeOut(300);
+	    }
+	    else {
+	        selector = ".device-control-card";
+	        $(selector).fadeIn(300);
+	    }
 	});
 
 
@@ -102,7 +115,7 @@
 	                node_list[i].device[d].module = d;
 	                node_list[i].device[d].key = node_list[i].device[d].udi = DeviceUtils_1.default.get_unique_device_index();
 	                node_list[i].device[d].remote_address = remote_address;
-	                this.state_list[node_list[i].device[d].name] = [];
+	                // this.state_list[node_list[i].device[d].name] = [];
 	                this.state_list[node_list[i].device[d].name] = node_list[i].device[d].state;
 	                delete node_list[i].device[d].state;
 	                this.device_list.push(node_list[i].device[d]);
@@ -202,6 +215,7 @@
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var HostManager_1 = __webpack_require__(1);
 	var AsgardSystemEvent_1 = __webpack_require__(5);
+	var StateManager_1 = __webpack_require__(190);
 	/**
 	 * Created by Lizeqiangd on 2017/3/18.
 	 */
@@ -236,15 +250,12 @@
 	    };
 	    CommunicationManager.updateDeviceStates = function () {
 	        var node_address = HostManager_1.default.node_address_list;
-	        var node_list = [];
 	        for (var i = 0; i < node_address.length; i++) {
 	            var url = "http://" + node_address[i] + "/asgard_system/list_device";
 	            $.get(url, null, function (data, status) {
 	                if (status == 'success') {
-	                    node_list.push(data);
-	                    if (node_list.length == node_address.length) {
-	                        HostManager_1.default.node_list = node_list;
-	                        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.node_load_complete, node_list));
+	                    for (var k in data.device) {
+	                        StateManager_1.default.setDeviceState(data.device[k]['name'], data.device[k]['state']);
 	                    }
 	                }
 	                else {
@@ -329,11 +340,7 @@
 	    CardManager.renderCard = function (device_name) {
 	        if (device_name === void 0) { device_name = ""; }
 	        var renderCards;
-	        if (device_name) {
-	        }
-	        else {
-	            renderCards = HostManager_1.default.card_list;
-	        }
+	        renderCards = HostManager_1.default.card_list;
 	        ReactDOM.render(React.createElement("div", { className: "row" }, renderCards), $(HostManager_1.default.card_container_jquery_selector_name)[0]);
 	        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.render_card));
 	    };
@@ -22090,6 +22097,7 @@
 	var DeviceCardBase_1 = __webpack_require__(189);
 	var CommunicationManager_1 = __webpack_require__(4);
 	var StateManager_1 = __webpack_require__(190);
+	var DeviceCardBase_2 = __webpack_require__(189);
 	var ProjectionScreenRemote = (function (_super) {
 	    __extends(ProjectionScreenRemote, _super);
 	    function ProjectionScreenRemote(props) {
@@ -22141,18 +22149,16 @@
 	                projection_screen_state = '下降';
 	                break;
 	        }
-	        return (React.createElement("div", { className: this.card_class_prefix },
-	            React.createElement("div", { className: "card" },
-	                React.createElement("div", { className: "card-header text-center" }, this.device_module),
-	                React.createElement("div", { className: "card-block" },
-	                    React.createElement("div", { className: "btn-group " },
-	                        React.createElement("button", { className: (this.state['projection_screen_state'] == 1 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "up", disabled: this.state['button_disabled'] }, "\u4E0A\u5347"),
-	                        React.createElement("button", { className: (this.state['projection_screen_state'] == 2 ? "active" : "") + " btn btn-outline-danger " + this.control_button_classname, value: "stop", disabled: this.state['button_disabled'] }, "\u505C\u6B62"),
-	                        React.createElement("button", { className: (this.state['projection_screen_state'] == 3 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "down", disabled: this.state['button_disabled'] }, "\u4E0B\u964D"))),
-	                React.createElement("div", { className: "card-footer" },
-	                    React.createElement("span", { className: "col-12" },
-	                        "\u5F53\u524D\u72B6\u6001: ",
-	                        projection_screen_state)))));
+	        return (React.createElement(DeviceCardBase_2.DeviceCardHeader, { card_class_prefix: this.card_class_prefix, device_module: this.device_module },
+	            React.createElement("div", { className: "card-block" },
+	                React.createElement("div", { className: "btn-group " },
+	                    React.createElement("button", { className: (this.state['projection_screen_state'] == 1 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "up", disabled: this.state['button_disabled'] }, "\u4E0A\u5347"),
+	                    React.createElement("button", { className: (this.state['projection_screen_state'] == 2 ? "active" : "") + " btn btn-outline-danger " + this.control_button_classname, value: "stop", disabled: this.state['button_disabled'] }, "\u505C\u6B62"),
+	                    React.createElement("button", { className: (this.state['projection_screen_state'] == 3 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "down", disabled: this.state['button_disabled'] }, "\u4E0B\u964D"))),
+	            React.createElement("div", { className: "card-footer" },
+	                React.createElement("span", { className: "col-12" },
+	                    "\u5F53\u524D\u72B6\u6001: ",
+	                    projection_screen_state))));
 	    };
 	    return ProjectionScreenRemote;
 	}(DeviceCardBase_1.default));
@@ -22229,26 +22235,23 @@
 	    };
 	    DeviceCardBase.prototype.submit_command = function (command) {
 	    };
-	    DeviceCardBase.prototype.get_card_framework = function (children) {
-	        return (React.createElement("div", { className: this.card_class_prefix, id: "device_card_" + this.device_module },
-	            React.createElement("div", { className: "card" },
-	                React.createElement("div", { className: "card-header text-center" }, this.device_module),
-	                children)));
-	    };
 	    return DeviceCardBase;
 	}(React.Component));
 	exports.default = DeviceCardBase;
-	var card_frame_base = (function (_super) {
-	    __extends(card_frame_base, _super);
-	    function card_frame_base(props) {
+	var DeviceCardHeader = (function (_super) {
+	    __extends(DeviceCardHeader, _super);
+	    function DeviceCardHeader(props) {
 	        return _super.call(this, props) || this;
 	    }
-	    card_frame_base.prototype.render = function () {
-	        return (React.createElement("div", { className: "test." }));
+	    DeviceCardHeader.prototype.render = function () {
+	        return (React.createElement("div", { className: this.props.card_class_prefix, id: "device_card_" + this.props.device_module },
+	            React.createElement("div", { className: "card" },
+	                React.createElement("div", { className: "card-header text-center" }, this.props.device_module),
+	                this.props.children)));
 	    };
-	    return card_frame_base;
+	    return DeviceCardHeader;
 	}(React.Component));
-	exports.card_frame_base = card_frame_base;
+	exports.DeviceCardHeader = DeviceCardHeader;
 
 
 /***/ }),
@@ -22262,37 +22265,42 @@
 	 */
 	var AsgardSystemEvent_1 = __webpack_require__(5);
 	var HostManager_1 = __webpack_require__(1);
+	var CommunicationManager_1 = __webpack_require__(4);
 	var StateManager = (function () {
 	    function StateManager() {
 	        // this.event_dispatcher.addEventListener(AsgardSystemEvent.stage_change, this.onStateChange);
 	    }
+	    StateManager.startAutoUpdate = function (delayInSecond) {
+	        if (delayInSecond === void 0) { delayInSecond = 60; }
+	        CommunicationManager_1.default.updateDeviceStates();
+	        this.update_timer = setInterval(function () {
+	            CommunicationManager_1.default.updateDeviceStates();
+	        }, delayInSecond * 1000);
+	    };
+	    StateManager.stopAutoUpdate = function () {
+	        clearInterval(this.update_timer);
+	    };
 	    StateManager.updateState = function () {
-	        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.stage_change, this.state));
+	        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.stage_change, HostManager_1.default.state_list));
 	    };
 	    StateManager.getDeviceState = function (device_name) {
-	        if (this.state[device_name]) {
-	            return this.state[device_name];
+	        if (HostManager_1.default.state_list[device_name]) {
+	            return HostManager_1.default.state_list[device_name];
 	        }
 	        console.log("StateManager.getDeviceState:can not find device state:" + device_name);
 	        return {};
 	    };
 	    StateManager.setDeviceState = function (device_name, device_state) {
-	        if (!this.state[device_name])
-	            this.state[device_name] = {};
-	        var needUpdate = false;
-	        for (var key in device_state) {
-	            if (device_state[key] != this.state[device_name][key]) {
-	                this.state[device_name][key] = device_state[key];
-	                needUpdate = true;
-	            }
+	        if (!HostManager_1.default.state_list[device_name]) {
+	            console.log('error,not find device_name:' + device_name);
 	        }
-	        // console.log(device_name,device_state,needUpdate)
-	        if (needUpdate)
-	            HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.state_update, device_name));
+	        console.log(device_name, HostManager_1.default.state_list[device_name], device_state);
+	        $.extend(true, HostManager_1.default.state_list[device_name], device_state);
+	        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.state_update, device_name));
 	    };
 	    return StateManager;
 	}());
-	StateManager.state = {};
+	StateManager.update_timer = 0;
 	exports.default = StateManager;
 
 
@@ -22352,6 +22360,7 @@
 	var React = __webpack_require__(7);
 	var DeviceCardBase_1 = __webpack_require__(189);
 	var CommunicationManager_1 = __webpack_require__(4);
+	var DeviceCardBase_2 = __webpack_require__(189);
 	var DysonRemote = (function (_super) {
 	    __extends(DysonRemote, _super);
 	    function DysonRemote(props) {
@@ -22399,7 +22408,7 @@
 	        $(function () {
 	            $("#dyson_remote_fanspeed_slider").slider({
 	                range: "min",
-	                value: _this.state['fan']['fnsp'] && _this.state['fan']['fnsp'] != 'AUTO' ? _this.state['fan']['fnsp'] : 1,
+	                value: 1,
 	                min: 1,
 	                max: 10, step: 1,
 	                slide: function (event, ui) {
@@ -22409,36 +22418,33 @@
 	        });
 	    };
 	    DysonRemote.prototype.componentDidUpdate = function () {
+	        $("#dyson_remote_fanspeed_slider").slider("value", this.state['fan']['fnsp'] && this.state['fan']['fnsp'] != 'AUTO' ? this.state['fan']['fnsp'] : 1);
 	    };
 	    DysonRemote.prototype.render = function () {
 	        var temp = this.state['env']['temp'] ? this.state['env']['temp'] + '°C' : '未知';
 	        var hr = this.state['env']['hr'] ? this.state['env']['hr'] * 100 + '%' : '未知';
-	        return (React.createElement("div", { className: this.card_class_prefix, id: "device_card_" + this.device_module },
-	            React.createElement("div", { className: "card" },
-	                React.createElement("div", { className: "card-header text-center" },
-	                    this.device_module,
-	                    React.createElement("card_frame_base", { compiler: "TypeScript", framework: "React" })),
-	                React.createElement("div", { className: "card-block" },
-	                    React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
-	                        React.createElement("button", { className: (this.state['fan']['fmod'] == 'FAN' ? "active" : "") + " btn btn-outline-success " + this.control_button_classname, value: "FAN" }, "\u5F00\u673A"),
-	                        React.createElement("button", { className: (this.state['fan']['fmod'] == 'AUTO' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "AUTO" }, "\u81EA\u52A8\u6A21\u5F0F"),
-	                        React.createElement("button", { className: (this.state['fan']['fmod'] == 'OFF' ? "active" : "") + " btn btn-outline-danger " + this.control_button_classname, value: "OFF" }, "\u5173\u673A")),
-	                    React.createElement("div", { className: "col-12" },
-	                        React.createElement("label", { htmlFor: 'dyson_remote_fanspeed_slider' },
-	                            "\u98CE\u901F:",
-	                            this.state['fan']['fnsp']),
-	                        React.createElement("div", { id: "dyson_remote_fanspeed_slider" })),
-	                    React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
-	                        React.createElement("button", { className: (this.state['fan']['nmod'] == 'ON' ? "active" : " ") + " btn btn-outline-primary " + this.control_button_classname, value: "night_on" }, "\u6253\u5F00\u591C\u95F4\u6A21\u5F0F"),
-	                        React.createElement("button", { className: (this.state['fan']['nmod'] == 'OFF' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "night_off" }, "\u5173\u95ED\u591C\u95F4\u6A21\u5F0F")),
-	                    React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
-	                        React.createElement("button", { className: (this.state['fan']['oson'] == 'ON' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "oscillation_on" }, "\u6253\u5F00\u6447\u5934\u6A21\u5F0F"),
-	                        React.createElement("button", { className: (this.state['fan']['oson'] == 'OFF' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "oscillation_off" }, "\u5173\u95ED\u6447\u5934\u6A21\u5F0F"))),
-	                React.createElement("div", { className: "card-footer text-center" },
-	                    "\u6E29\u5EA6:",
-	                    temp,
-	                    " \u6E7F\u5EA6:",
-	                    hr))));
+	        return (React.createElement(DeviceCardBase_2.DeviceCardHeader, { card_class_prefix: this.card_class_prefix, device_module: this.device_module },
+	            React.createElement("div", { className: "card-block" },
+	                React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
+	                    React.createElement("button", { className: (this.state['fan']['fmod'] == 'FAN' ? "active" : "") + " btn btn-outline-success " + this.control_button_classname, value: "FAN" }, "\u5F00\u673A"),
+	                    React.createElement("button", { className: (this.state['fan']['fmod'] == 'AUTO' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "AUTO" }, "\u81EA\u52A8\u6A21\u5F0F"),
+	                    React.createElement("button", { className: (this.state['fan']['fmod'] == 'OFF' ? "active" : "") + " btn btn-outline-danger " + this.control_button_classname, value: "OFF" }, "\u5173\u673A")),
+	                React.createElement("div", { className: "col-12" },
+	                    React.createElement("label", { htmlFor: 'dyson_remote_fanspeed_slider' },
+	                        "\u98CE\u901F:",
+	                        this.state['fan']['fnsp']),
+	                    React.createElement("div", { id: "dyson_remote_fanspeed_slider" })),
+	                React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
+	                    React.createElement("button", { className: (this.state['fan']['nmod'] == 'ON' ? "active" : " ") + " btn btn-outline-primary " + this.control_button_classname, value: "night_on" }, "\u6253\u5F00\u591C\u95F4\u6A21\u5F0F"),
+	                    React.createElement("button", { className: (this.state['fan']['nmod'] == 'OFF' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "night_off" }, "\u5173\u95ED\u591C\u95F4\u6A21\u5F0F")),
+	                React.createElement("div", { className: "btn-group btn-group-justified col-12 mt-2" },
+	                    React.createElement("button", { className: (this.state['fan']['oson'] == 'ON' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "oscillation_on" }, "\u6253\u5F00\u6447\u5934\u6A21\u5F0F"),
+	                    React.createElement("button", { className: (this.state['fan']['oson'] == 'OFF' ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "oscillation_off" }, "\u5173\u95ED\u6447\u5934\u6A21\u5F0F"))),
+	            React.createElement("div", { className: "card-footer text-center" },
+	                "\u6E29\u5EA6:",
+	                temp,
+	                " \u6E7F\u5EA6:",
+	                hr)));
 	    };
 	    return DysonRemote;
 	}(DeviceCardBase_1.default));

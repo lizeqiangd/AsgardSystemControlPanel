@@ -1,5 +1,5 @@
 /**
- * Created by Lizeqiangd on 2017/3/18.
+ * Created by Lizeqiangd on 2017/4/24.
  */
 
 /// <reference path="./../../../../node_modules/@types/react/index.d.ts" />
@@ -15,7 +15,7 @@ declare module JSX {
         "DeviceCardHeader": DeviceCardHeader
     }
 }
-export default class ProjectionScreenRemote extends DeviceCardBase {
+export default class IRRemoter extends DeviceCardBase {
     constructor(props) {
         super(props);
         this.state['button_disabled'] = false;

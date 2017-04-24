@@ -31,11 +31,7 @@ var CardManager = (function () {
     CardManager.renderCard = function (device_name) {
         if (device_name === void 0) { device_name = ""; }
         var renderCards;
-        if (device_name) {
-        }
-        else {
-            renderCards = HostManager_1.default.card_list;
-        }
+        renderCards = HostManager_1.default.card_list;
         ReactDOM.render(React.createElement("div", { className: "row" }, renderCards), $(HostManager_1.default.card_container_jquery_selector_name)[0]);
         HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.render_card));
     };

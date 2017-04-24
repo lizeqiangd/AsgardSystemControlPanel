@@ -59,29 +59,30 @@ export default class DeviceCardBase extends React.Component<{},{}> {
 
     }
 
-    get_card_framework(children: any) {
-        return (
-            <div className={this.card_class_prefix} id={"device_card_"+this.device_module}>
-                <div className="card">
-                    <div className="card-header text-center">
-                        {this.device_module}
-                    </div>
-                    {children}
-                </div>
-            </div>);
-    }
 
 }
 
-export  class card_frame_base extends React.Component<{}, {}> {
+
+interface DeviceCardHeaderProps {
+    card_class_prefix: string,
+    device_module: string,
+}
+
+
+export  class DeviceCardHeader extends React.Component<DeviceCardHeaderProps, {}> {
     constructor(props ) {
         super(props);
     }
 
     public render() {
         return (
-            <div className="test.">
-
+            <div className={this.props.card_class_prefix} id={"device_card_"+this.props.device_module}>
+                <div className="card">
+                    <div className="card-header text-center">
+                        {this.props.device_module}
+                    </div>
+                    {this.props.children}
+                </div>
             </div>
         );
     }

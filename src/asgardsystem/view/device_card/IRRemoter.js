@@ -1,5 +1,5 @@
 /**
- * Created by Lizeqiangd on 2017/3/18.
+ * Created by Lizeqiangd on 2017/4/24.
  */
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -19,14 +19,14 @@ var DeviceCardBase_1 = require("./DeviceCardBase");
 var CommunicationManager_1 = require("../../controller/CommunicationManager");
 var StateManager_1 = require("../../controller/StateManager");
 var DeviceCardBase_2 = require("./DeviceCardBase");
-var ProjectionScreenRemote = (function (_super) {
-    __extends(ProjectionScreenRemote, _super);
-    function ProjectionScreenRemote(props) {
+var IRRemoter = (function (_super) {
+    __extends(IRRemoter, _super);
+    function IRRemoter(props) {
         var _this = _super.call(this, props) || this;
         _this.state['button_disabled'] = false;
         return _this;
     }
-    ProjectionScreenRemote.prototype.submit_command = function (command) {
+    IRRemoter.prototype.submit_command = function (command) {
         var _this = this;
         // console.log(this)
         //noinspection TypeScriptUnresolvedFunction
@@ -57,7 +57,7 @@ var ProjectionScreenRemote = (function (_super) {
             }];
         CommunicationManager_1.default.postCommand(this.remote_address, remote_data);
     };
-    ProjectionScreenRemote.prototype.render = function () {
+    IRRemoter.prototype.render = function () {
         var projection_screen_state = '未知';
         switch (this.state['projection_screen_state']) {
             case 1:
@@ -81,6 +81,6 @@ var ProjectionScreenRemote = (function (_super) {
                     "\u5F53\u524D\u72B6\u6001: ",
                     projection_screen_state))));
     };
-    return ProjectionScreenRemote;
+    return IRRemoter;
 }(DeviceCardBase_1.default));
-exports.default = ProjectionScreenRemote;
+exports.default = IRRemoter;

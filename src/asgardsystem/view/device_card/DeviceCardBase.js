@@ -64,23 +64,20 @@ var DeviceCardBase = (function (_super) {
     };
     DeviceCardBase.prototype.submit_command = function (command) {
     };
-    DeviceCardBase.prototype.get_card_framework = function (children) {
-        return (React.createElement("div", { className: this.card_class_prefix, id: "device_card_" + this.device_module },
-            React.createElement("div", { className: "card" },
-                React.createElement("div", { className: "card-header text-center" }, this.device_module),
-                children)));
-    };
     return DeviceCardBase;
 }(React.Component));
 exports.default = DeviceCardBase;
-var card_frame_base = (function (_super) {
-    __extends(card_frame_base, _super);
-    function card_frame_base(props) {
+var DeviceCardHeader = (function (_super) {
+    __extends(DeviceCardHeader, _super);
+    function DeviceCardHeader(props) {
         return _super.call(this, props) || this;
     }
-    card_frame_base.prototype.render = function () {
-        return (React.createElement("div", { className: "test." }));
+    DeviceCardHeader.prototype.render = function () {
+        return (React.createElement("div", { className: this.props.card_class_prefix, id: "device_card_" + this.props.device_module },
+            React.createElement("div", { className: "card" },
+                React.createElement("div", { className: "card-header text-center" }, this.props.device_module),
+                this.props.children)));
     };
-    return card_frame_base;
+    return DeviceCardHeader;
 }(React.Component));
-exports.card_frame_base = card_frame_base;
+exports.DeviceCardHeader = DeviceCardHeader;

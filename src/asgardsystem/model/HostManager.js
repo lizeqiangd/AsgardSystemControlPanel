@@ -15,7 +15,7 @@ var HostManager = (function () {
                 node_list[i].device[d].module = d;
                 node_list[i].device[d].key = node_list[i].device[d].udi = DeviceUtils_1.default.get_unique_device_index();
                 node_list[i].device[d].remote_address = remote_address;
-                this.state_list[node_list[i].device[d].name] = [];
+                // this.state_list[node_list[i].device[d].name] = [];
                 this.state_list[node_list[i].device[d].name] = node_list[i].device[d].state;
                 delete node_list[i].device[d].state;
                 this.device_list.push(node_list[i].device[d]);

@@ -3,40 +3,46 @@
  */
 import AsgardSystemEvent from "../event/AsgardSystemEvent";
 import HostManager from "../model/HostManager";
+import CommunicationManager from "./CommunicationManager";
 export default class StateManager {
 
-    static readonly state: any = {};
+    static update_timer: number = 0;
 
     constructor() {
         // this.event_dispatcher.addEventListener(AsgardSystemEvent.stage_change, this.onStateChange);
 
     }
 
+    static startAutoUpdate(delayInSecond: number = 60) {
+        CommunicationManager.updateDeviceStates();
+        this.update_timer = setInterval(()=> {
+            CommunicationManager.updateDeviceStates();
+        }, delayInSecond * 1000);
+    }
+
+    static stopAutoUpdate() {
+        clearInterval(this.update_timer);
+    }
 
     static updateState() {
-        HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.stage_change, this.state));
+        HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.stage_change, HostManager.state_list));
     }
 
     static getDeviceState(device_name: string) {
-        if (this.state[device_name]) {
-            return this.state[device_name];
+        if (HostManager.state_list[device_name]) {
+            return HostManager.state_list[device_name];
         }
         console.log(`StateManager.getDeviceState:can not find device state:${device_name}`);
         return {};
     }
 
     static setDeviceState(device_name: string, device_state: any) {
-        if (!this.state[device_name])this.state[device_name] = {};
-        let needUpdate: boolean = false
-        for (var key in device_state) {
-            if (device_state[key] != this.state[device_name][key]) {
-                this.state[device_name][key] = device_state[key];
-                needUpdate = true;
-            }
+        if (!HostManager.state_list[device_name]) {
+            console.log('error,not find device_name:' + device_name)
         }
-        // console.log(device_name,device_state,needUpdate)
-        if (needUpdate)
-            HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.state_update, device_name))
+        console.log(device_name, HostManager.state_list[device_name], device_state);
+        $.extend(true, HostManager.state_list[device_name], device_state);
+        HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.state_update, device_name))
     }
 
 

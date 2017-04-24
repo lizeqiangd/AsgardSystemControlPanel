@@ -9,9 +9,16 @@ import CommunicationManager from "../../controller/CommunicationManager";
 import StateManager from "../../controller/StateManager";
 import AsgardSystemEvent from "../../event/AsgardSystemEvent";
 import HostManager from "../../model/HostManager";
-import {card_frame_base} from "./DeviceCardBase";
+import {DeviceCardHeader} from "./DeviceCardBase";
 
 declare var $: any;
+
+declare module JSX {
+    interface IntrinsicElements {
+        "DeviceCardHeader": DeviceCardHeader
+    }
+}
+
 export default class DysonRemote extends DeviceCardBase {
 
     constructor(props) {
@@ -63,7 +70,7 @@ export default class DysonRemote extends DeviceCardBase {
         $(()=> {
             $("#dyson_remote_fanspeed_slider").slider({
                 range: "min",
-                value: this.state['fan']['fnsp'] && this.state['fan']['fnsp'] != 'AUTO' ? this.state['fan']['fnsp'] : 1,
+                value: 1,
                 min: 1,
                 max: 10, step: 1,
                 slide: (event, ui)=> {
@@ -74,6 +81,7 @@ export default class DysonRemote extends DeviceCardBase {
     }
 
     componentDidUpdate() {
+        $("#dyson_remote_fanspeed_slider").slider("value", this.state['fan']['fnsp'] && this.state['fan']['fnsp'] != 'AUTO' ? this.state['fan']['fnsp'] : 1);
 
     }
 
@@ -82,66 +90,60 @@ export default class DysonRemote extends DeviceCardBase {
         let temp: string = this.state['env']['temp'] ? this.state['env']['temp'] + '°C' : '未知';
         let hr: string = this.state['env']['hr'] ? this.state['env']['hr'] * 100 + '%' : '未知';
         return (
-            <div className={this.card_class_prefix} id={"device_card_"+this.device_module}>
-                <div className="card">
-                    <div className="card-header text-center">
-                        {this.device_module}
-                        <card_frame_base compiler="TypeScript" framework="React"/>
+            <DeviceCardHeader card_class_prefix={this.card_class_prefix} device_module={this.device_module}>
+                <div className="card-block">
+                    <div className="btn-group btn-group-justified col-12 mt-2">
+                        <button
+                            className={(this.state['fan']['fmod']=='FAN'?"active":"")+" btn btn-outline-success "+this.control_button_classname}
+                            value="FAN">
+                            开机
+                        </button>
+                        <button
+                            className={(this.state['fan']['fmod']=='AUTO'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
+                            value="AUTO">
+                            自动模式
+                        </button>
+                        <button
+                            className={(this.state['fan']['fmod']=='OFF'?"active":"")+" btn btn-outline-danger "+this.control_button_classname}
+                            value="OFF">
+                            关机
+                        </button>
                     </div>
-                    <div className="card-block">
 
-                        <div className="btn-group btn-group-justified col-12 mt-2">
-                            <button
-                                className={(this.state['fan']['fmod']=='FAN'?"active":"")+" btn btn-outline-success "+this.control_button_classname}
-                                value="FAN">
-                                开机
-                            </button>
-                            <button
-                                className={(this.state['fan']['fmod']=='AUTO'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
-                                value="AUTO">
-                                自动模式
-                            </button>
-                            <button
-                                className={(this.state['fan']['fmod']=='OFF'?"active":"")+" btn btn-outline-danger "+this.control_button_classname}
-                                value="OFF">
-                                关机
-                            </button>
-                        </div>
-
-                        <div className="col-12">
-                            <label htmlFor='dyson_remote_fanspeed_slider'>风速:{this.state['fan']['fnsp']}</label>
-                            <div id="dyson_remote_fanspeed_slider"></div>
-                        </div>
-
-                        <div className="btn-group btn-group-justified col-12 mt-2">
-                            <button
-                                className={(this.state['fan']['nmod']=='ON'?"active":" ")+" btn btn-outline-primary "+this.control_button_classname}
-                                value="night_on">
-                                打开夜间模式
-                            </button>
-                            <button
-                                className={(this.state['fan']['nmod']=='OFF'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
-                                value="night_off">
-                                关闭夜间模式
-                            </button>
-                        </div>
-                        <div className="btn-group btn-group-justified col-12 mt-2">
-                            <button
-                                className={(this.state['fan']['oson']=='ON'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
-                                value="oscillation_on">
-                                打开摇头模式
-                            </button>
-                            <button
-                                className={(this.state['fan']['oson']=='OFF'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
-                                value="oscillation_off">
-                                关闭摇头模式
-                            </button>
-                        </div>
+                    <div className="col-12">
+                        <label htmlFor='dyson_remote_fanspeed_slider'>风速:{this.state['fan']['fnsp']}</label>
+                        <div id="dyson_remote_fanspeed_slider"></div>
                     </div>
-                    <div className="card-footer text-center">
-                        温度:{temp} 湿度:{hr}
+
+                    <div className="btn-group btn-group-justified col-12 mt-2">
+                        <button
+                            className={(this.state['fan']['nmod']=='ON'?"active":" ")+" btn btn-outline-primary "+this.control_button_classname}
+                            value="night_on">
+                            打开夜间模式
+                        </button>
+                        <button
+                            className={(this.state['fan']['nmod']=='OFF'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
+                            value="night_off">
+                            关闭夜间模式
+                        </button>
+                    </div>
+                    <div className="btn-group btn-group-justified col-12 mt-2">
+                        <button
+                            className={(this.state['fan']['oson']=='ON'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
+                            value="oscillation_on">
+                            打开摇头模式
+                        </button>
+                        <button
+                            className={(this.state['fan']['oson']=='OFF'?"active":"")+" btn btn-outline-primary "+this.control_button_classname}
+                            value="oscillation_off">
+                            关闭摇头模式
+                        </button>
                     </div>
                 </div>
-            </div>);
+                <div className="card-footer text-center">
+                    温度:{temp} 湿度:{hr}
+                </div>
+            </DeviceCardHeader>
+        );
     }
 }

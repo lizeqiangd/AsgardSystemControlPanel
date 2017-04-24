@@ -41,15 +41,11 @@ export default class CardManager {
 
     static renderCard(device_name: string = "") {
         let renderCards: React.ReactElement<{}>[];
-        if (device_name) {
-
-        } else {
-            renderCards = HostManager.card_list;
-        }
+        renderCards = HostManager.card_list;
         ReactDOM.render(
             <div className="row">{renderCards}</div>,
             $(HostManager.card_container_jquery_selector_name)[0]
-        );
+        )
         HostManager.event_dispatcher.dispatchEvent(new AsgardSystemEvent(AsgardSystemEvent.render_card));
     }
 

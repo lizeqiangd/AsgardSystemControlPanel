@@ -1,5 +1,5 @@
 /**
- * Created by Lizeqiangd on 2017/3/18.
+ * Created by Lizeqiangd on 2017/4/24.
  */
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -19,16 +19,15 @@ var DeviceCardBase_1 = require("./DeviceCardBase");
 var CommunicationManager_1 = require("../../controller/CommunicationManager");
 var StateManager_1 = require("../../controller/StateManager");
 var DeviceCardBase_2 = require("./DeviceCardBase");
-var ProjectionScreenRemote = (function (_super) {
-    __extends(ProjectionScreenRemote, _super);
-    function ProjectionScreenRemote(props) {
+var BedroomLocker = (function (_super) {
+    __extends(BedroomLocker, _super);
+    function BedroomLocker(props) {
         var _this = _super.call(this, props) || this;
         _this.state['button_disabled'] = false;
         return _this;
     }
-    ProjectionScreenRemote.prototype.submit_command = function (command) {
+    BedroomLocker.prototype.submit_command = function (command) {
         var _this = this;
-        // console.log(this)
         //noinspection TypeScriptUnresolvedFunction
         this.setState({
             button_disabled: true
@@ -38,16 +37,13 @@ var ProjectionScreenRemote = (function (_super) {
             _this.setState({
                 button_disabled: false
             });
-        }, 1500);
+        }, 5000);
         switch (command) {
-            case 'up':
+            case 'lock':
                 StateManager_1.default.setDeviceState(this.device_name, { "projection_screen_state": 1 });
                 break;
-            case 'stop':
+            case 'unloock':
                 StateManager_1.default.setDeviceState(this.device_name, { "projection_screen_state": 2 });
-                break;
-            case 'down':
-                StateManager_1.default.setDeviceState(this.device_name, { "projection_screen_state": 3 });
                 break;
         }
         var remote_data = [{
@@ -57,30 +53,26 @@ var ProjectionScreenRemote = (function (_super) {
             }];
         CommunicationManager_1.default.postCommand(this.remote_address, remote_data);
     };
-    ProjectionScreenRemote.prototype.render = function () {
+    BedroomLocker.prototype.render = function () {
         var projection_screen_state = '未知';
         switch (this.state['projection_screen_state']) {
             case 1:
-                projection_screen_state = '上升';
+                projection_screen_state = '锁定';
                 break;
             case 2:
-                projection_screen_state = '停止';
-                break;
-            case 3:
-                projection_screen_state = '下降';
+                projection_screen_state = '解锁';
                 break;
         }
         return (React.createElement(DeviceCardBase_2.DeviceCardHeader, { card_class_prefix: this.card_class_prefix, device_module: this.device_module },
             React.createElement("div", { className: "card-block" },
                 React.createElement("div", { className: "btn-group " },
-                    React.createElement("button", { className: (this.state['projection_screen_state'] == 1 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "up", disabled: this.state['button_disabled'] }, "\u4E0A\u5347"),
-                    React.createElement("button", { className: (this.state['projection_screen_state'] == 2 ? "active" : "") + " btn btn-outline-danger " + this.control_button_classname, value: "stop", disabled: this.state['button_disabled'] }, "\u505C\u6B62"),
-                    React.createElement("button", { className: (this.state['projection_screen_state'] == 3 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "down", disabled: this.state['button_disabled'] }, "\u4E0B\u964D"))),
+                    React.createElement("button", { className: (this.state['projection_screen_state'] == 1 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "lock", disabled: this.state['button_disabled'] }, "\u9501\u5B9A"),
+                    React.createElement("button", { className: (this.state['projection_screen_state'] == 2 ? "active" : "") + " btn btn-outline-primary " + this.control_button_classname, value: "unlock", disabled: this.state['button_disabled'] }, "\u89E3\u9501"))),
             React.createElement("div", { className: "card-footer" },
                 React.createElement("span", { className: "col-12" },
                     "\u5F53\u524D\u72B6\u6001: ",
                     projection_screen_state))));
     };
-    return ProjectionScreenRemote;
+    return BedroomLocker;
 }(DeviceCardBase_1.default));
-exports.default = ProjectionScreenRemote;
+exports.default = BedroomLocker;
