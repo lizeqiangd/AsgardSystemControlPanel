@@ -2,6 +2,7 @@
  * Created by Lizeqiangd on 2017/3/18.
  */
 /// <reference path="./../../../../node_modules/@types/react/index.d.ts" />
+import * as ReactDOM from "react-dom";
 import * as React from 'react';
 import DeviceCardBase from "./DeviceCardBase";
 import CommunicationManager from "../../controller/CommunicationManager";

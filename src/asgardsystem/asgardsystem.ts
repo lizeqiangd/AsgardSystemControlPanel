@@ -30,3 +30,7 @@ function onLoadNodeComplete(e: AsgardSystemEvent) {
         CardManager.createCard(HostManager.device_list[i]);
     }
 }
+
+
+
+$('#search_bar').on
