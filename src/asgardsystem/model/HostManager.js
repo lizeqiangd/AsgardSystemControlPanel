@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var DeviceUtils_1 = require("../utils/DeviceUtils");
 var EventDispatcher_1 = require("../utils/EventDispatcher");
 /**
@@ -13,7 +13,7 @@ var HostManager = (function () {
             var remote_address = node_list[i].remote_address;
             for (var d in node_list[i].device) {
                 node_list[i].device[d].module = d;
-                node_list[i].device[d].key = node_list[i].device[d].udi = DeviceUtils_1.default.get_unique_device_index();
+                node_list[i].device[d].key = node_list[i].device[d].udi = DeviceUtils_1["default"].get_unique_device_index();
                 node_list[i].device[d].remote_address = remote_address;
                 // this.state_list[node_list[i].device[d].name] = [];
                 this.state_list[node_list[i].device[d].name] = node_list[i].device[d].state;
@@ -34,7 +34,8 @@ HostManager.device_list = [];
 HostManager.card_list = [];
 //所有设备所产生的状态管理器
 HostManager.state_list = [];
-HostManager.event_dispatcher = new EventDispatcher_1.default();
+HostManager.event_dispatcher = new EventDispatcher_1["default"]();
 HostManager.card_container_jquery_selector_name = '#card-container';
 HostManager.remote_password = '';
-exports.default = HostManager;
+exports["default"] = HostManager;
+//# sourceMappingURL=HostManager.js.map

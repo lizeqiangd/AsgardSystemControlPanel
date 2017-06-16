@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /// <reference path="./../../../node_modules/@types/react/index.d.ts" />
 var React = require("react");
 var ReactDOM = require("react-dom");
@@ -25,21 +25,22 @@ var CardManager = (function () {
         else {
             device_card = React.createElement(this.ReactClass.UnknownDevice, device);
         }
-        HostManager_1.default.card_list.push(device_card);
-        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.add_new_card));
+        HostManager_1["default"].card_list.push(device_card);
+        HostManager_1["default"].event_dispatcher.dispatchEvent(new AsgardSystemEvent_1["default"](AsgardSystemEvent_1["default"].add_new_card));
     };
     CardManager.renderCard = function (device_name) {
         if (device_name === void 0) { device_name = ""; }
         var renderCards;
-        renderCards = HostManager_1.default.card_list;
-        ReactDOM.render(React.createElement("div", { className: "row" }, renderCards), $(HostManager_1.default.card_container_jquery_selector_name)[0]);
-        HostManager_1.default.event_dispatcher.dispatchEvent(new AsgardSystemEvent_1.default(AsgardSystemEvent_1.default.render_card));
+        renderCards = HostManager_1["default"].card_list;
+        ReactDOM.render(React.createElement("div", { className: "row" }, renderCards), $(HostManager_1["default"].card_container_jquery_selector_name)[0]);
+        HostManager_1["default"].event_dispatcher.dispatchEvent(new AsgardSystemEvent_1["default"](AsgardSystemEvent_1["default"].render_card));
     };
     return CardManager;
 }());
 CardManager.ReactClass = {
-    UnknownDevice: UnknownDevice_1.default,
-    ProjectionScreenRemote: ProjectionScreenRemote_1.default,
-    DysonRemote: DysonRemote_1.default
+    UnknownDevice: UnknownDevice_1["default"],
+    ProjectionScreenRemote: ProjectionScreenRemote_1["default"],
+    DysonRemote: DysonRemote_1["default"]
 };
-exports.default = CardManager;
+exports["default"] = CardManager;
+//# sourceMappingURL=CardManager.js.map

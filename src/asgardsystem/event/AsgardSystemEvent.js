@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Created by Lizeqiangd on 2017/3/18.
  */
@@ -16,4 +16,5 @@ AsgardSystemEvent.state_update = "state_update";
 AsgardSystemEvent.add_new_card = 'add_new_card';
 AsgardSystemEvent.render_card = 'render_card';
 AsgardSystemEvent.node_load_complete = 'node_load_complete';
-exports.default = AsgardSystemEvent;
+exports["default"] = AsgardSystemEvent;
+//# sourceMappingURL=AsgardSystemEvent.js.map

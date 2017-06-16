@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Created by Lizeqiangd on 2017/3/25.
  */
@@ -27,5 +27,6 @@ var UnknownDevice = (function (_super) {
                 "模块错误或者制作中:" + this.device_module)));
     };
     return UnknownDevice;
-}(DeviceCardBase_1.default));
-exports.default = UnknownDevice;
+}(DeviceCardBase_1["default"]));
+exports["default"] = UnknownDevice;
+//# sourceMappingURL=UnknownDevice.js.map

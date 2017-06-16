@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Created by Lizeqiangd on 2017/3/18.
  */
@@ -35,17 +35,17 @@ var DeviceCardBase = (function (_super) {
         _this.device_type = _this.props['type'];
         _this.remote_address = _this.props['remote_address'];
         _this.control_button_classname = _this.device_name + "_controller";
-        HostManager_1.default.event_dispatcher.addEventListener(AsgardSystemEvent_1.default.state_update, _this.onStateUpdate.bind(_this));
+        HostManager_1["default"].event_dispatcher.addEventListener(AsgardSystemEvent_1["default"].state_update, _this.onStateUpdate.bind(_this));
         _this.state = {};
-        for (var i in HostManager_1.default.state_list[_this.device_name]) {
-            _this.state[i] = HostManager_1.default.state_list[_this.device_name][i];
+        for (var i in HostManager_1["default"].state_list[_this.device_name]) {
+            _this.state[i] = HostManager_1["default"].state_list[_this.device_name][i];
         }
         return _this;
     }
     DeviceCardBase.prototype.onStateUpdate = function (e) {
         if (e.data == this.device_name) {
             //noinspection TypeScriptUnresolvedFunction
-            this.setState(StateManager_1.default.getDeviceState(this.device_name));
+            this.setState(StateManager_1["default"].getDeviceState(this.device_name));
             // console.log('onStateUpdate', StateManager.getDeviceState(this.device_name))
         }
     };
@@ -66,7 +66,7 @@ var DeviceCardBase = (function (_super) {
     };
     return DeviceCardBase;
 }(React.Component));
-exports.default = DeviceCardBase;
+exports["default"] = DeviceCardBase;
 var DeviceCardHeader = (function (_super) {
     __extends(DeviceCardHeader, _super);
     function DeviceCardHeader(props) {
@@ -81,3 +81,4 @@ var DeviceCardHeader = (function (_super) {
     return DeviceCardHeader;
 }(React.Component));
 exports.DeviceCardHeader = DeviceCardHeader;
+//# sourceMappingURL=DeviceCardBase.js.map

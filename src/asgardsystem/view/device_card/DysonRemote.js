@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var React = require("react");
 var DeviceCardBase_1 = require("./DeviceCardBase");
 var CommunicationManager_1 = require("../../controller/CommunicationManager");
@@ -53,7 +53,7 @@ var DysonRemote = (function (_super) {
                 "target_device_name": this.device_name,
                 "command": command_obj
             }];
-        CommunicationManager_1.default.postCommand(this.remote_address, remote_data);
+        CommunicationManager_1["default"].postCommand(this.remote_address, remote_data);
     };
     DysonRemote.prototype.componentDidMount = function () {
         var _this = this;
@@ -100,5 +100,6 @@ var DysonRemote = (function (_super) {
                 hr)));
     };
     return DysonRemote;
-}(DeviceCardBase_1.default));
-exports.default = DysonRemote;
+}(DeviceCardBase_1["default"]));
+exports["default"] = DysonRemote;
+//# sourceMappingURL=DysonRemote.js.map

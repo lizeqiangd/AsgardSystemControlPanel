@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var EventDispatcher = (function () {
     function EventDispatcher() {
         this.listeners = {};
@@ -35,4 +35,5 @@ var EventDispatcher = (function () {
     };
     return EventDispatcher;
 }());
-exports.default = EventDispatcher;
+exports["default"] = EventDispatcher;
+//# sourceMappingURL=EventDispatcher.js.map

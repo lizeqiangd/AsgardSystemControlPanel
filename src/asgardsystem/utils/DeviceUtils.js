@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Created by Lizeqiangd on 2017/3/22.
  */
@@ -14,4 +14,5 @@ DeviceUtils.get_unique_device_index = (function () {
         return ++device_index;
     };
 })();
-exports.default = DeviceUtils;
+exports["default"] = DeviceUtils;
+//# sourceMappingURL=DeviceUtils.js.map
